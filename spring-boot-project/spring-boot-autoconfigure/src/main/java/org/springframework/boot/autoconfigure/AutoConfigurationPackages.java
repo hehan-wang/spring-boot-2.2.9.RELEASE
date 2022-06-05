@@ -96,8 +96,8 @@ public abstract class AutoConfigurationPackages {
 		else {
 			//如果该bean尚未注册，则注册该bean，参数中提供的包名称会被设置到bean定义中去
 			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-			beanDefinition.setBeanClass(BasePackages.class);
-			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0, packageNames);
+			beanDefinition.setBeanClass(BasePackages.class);//Holder for the base package
+			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0, packageNames);//packageNames放入BasePackages属性中
 			beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			registry.registerBeanDefinition(BEAN, beanDefinition);
 		}

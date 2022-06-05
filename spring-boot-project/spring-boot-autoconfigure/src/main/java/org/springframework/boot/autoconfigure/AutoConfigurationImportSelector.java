@@ -118,7 +118,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		// 【2】将要排除的配置类移除
 		configurations.removeAll(exclusions);
 
-		// 【3】因为从spring.factories文件获取的自动配置类太多，如果有些不必要的自动配置类都加载进内存，会造成内存浪费，因此这里需要进行过滤
+		// 【3】过滤@ConditionOnxxx生效的配置  因为从spring.factories文件获取的自动配置类太多，如果有些不必要的自动配置类都加载进内存，会造成内存浪费，因此这里需要进行过滤
 		configurations = filter(configurations, autoConfigurationMetadata);
 
 		// 【4】获取了符合条件的自动配置类后，此时触发AutoConfigurationImportEvent事件，
@@ -131,7 +131,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 
 	@Override
 	public Class<? extends Group> getImportGroup() {
-		return AutoConfigurationGroup.class;
+		return AutoConfigurationGroup.class;//交给AutoConfigurationGroup的process方法处理
 	}
 
 	protected boolean isEnabled(AnnotationMetadata metadata) {
@@ -261,11 +261,11 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 			// 判断各种filter来判断每个candidate（这里实质要通过candidate(自动配置类)拿到其标注的
 			// @ConditionalOnClass,@ConditionalOnBean和@ConditionalOnWebApplication里面的注解值）是否匹配，
 			// 注意candidates数组与match数组一一对应
-			/******************************************************/
+			/***************************【主线，重点关注】***************************/
 			boolean[] match = filter.match(candidates, autoConfigurationMetadata);
 			// 遍历match数组，注意match顺序跟candidates的自动配置类一一对应
 			for (int i = 0; i < match.length; i++) {
-				// 若有不匹配的话
+				// 若有不匹配的话跳过该自动装配
 				if (!match[i]) {
 					// 不匹配的将记录在skip数组，标志skip[i]为true，也与candidates数组一一对应
 					skip[i] = true;
@@ -435,7 +435,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		}
 
 		@Override
-		public Iterable<Entry> selectImports() {
+		public Iterable<Entry> selectImports() {//进行exclude排除和order排除
 			if (this.autoConfigurationEntries.isEmpty()) {
 				return Collections.emptyList();
 			}

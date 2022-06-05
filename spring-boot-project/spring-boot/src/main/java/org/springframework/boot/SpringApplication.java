@@ -280,6 +280,7 @@ public class SpringApplication {
 	 *  运行spring应用，并刷新一个新的 ApplicationContext（Spring的上下文）
 	 *  ConfigurableApplicationContext 是 ApplicationContext 接口的子接口。在 ApplicationContext
 	 *  基础上增加了配置上下文的工具。 ConfigurableApplicationContext是容器的高级接口
+	 *  重点关注
 	 */
 	public ConfigurableApplicationContext run(String... args) {
 		//记录程序运行时间
@@ -318,6 +319,7 @@ public class SpringApplication {
 			}
 			//发布容器启动完成事件
 			listeners.started(context);
+			//初始化完毕后，调用注册的runner中的run方法
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
@@ -336,7 +338,7 @@ public class SpringApplication {
 	}
 
 	private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners,
-			ApplicationArguments applicationArguments) {
+			ApplicationArguments applicationArguments) {//构建整个环境上下文(用户配置，profile)
 		// Create and configure the environment
 		//创建并配置相应的环境
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
@@ -364,7 +366,7 @@ public class SpringApplication {
 			return StandardEnvironment.class;
 		}
 	}
-
+	//完成属性设置 bean对象创建
 	private void prepareContext(ConfigurableApplicationContext context, ConfigurableEnvironment environment,
 			SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments, Banner printedBanner) {
 		//设置容器环境
@@ -396,13 +398,13 @@ public class SpringApplication {
 		// Load the sources
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
-		//加载我们的启动类，将启动类注入容器
+		//加载我们的启动类，将启动类注入容器 重点关注
 		load(context, sources.toArray(new Object[0]));
 		//发布容器已加载事件
 		listeners.contextLoaded(context);
 	}
 
-	private void refreshContext(ConfigurableApplicationContext context) {
+	private void refreshContext(ConfigurableApplicationContext context) {//重点关注
 		refresh(context);
 		if (this.registerShutdownHook) {
 			try {
@@ -433,11 +435,6 @@ public class SpringApplication {
 
 	/**
 	 * 通过指定的classloader 从META-INF/spring.factories获取指定的Spring的工厂实例
-	 * @param type
-	 * @param parameterTypes
-	 * @param args
-	 * @param <T>
-	 * @return
 	 */
 	private <T> Collection<T> getSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes, Object... args) {
 		ClassLoader classLoader = getClassLoader();
@@ -454,7 +451,7 @@ public class SpringApplication {
 
 	@SuppressWarnings("unchecked")
 	private <T> List<T> createSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes,
-			ClassLoader classLoader, Object[] args, Set<String> names) {
+			ClassLoader classLoader, Object[] args, Set<String> names) {//反射创建对象
 		List<T> instances = new ArrayList<>(names.size());
 		for (String name : names) {
 			try {
@@ -545,7 +542,7 @@ public class SpringApplication {
 	 * @see #configureEnvironment(ConfigurableEnvironment, String[])
 	 * @see org.springframework.boot.context.config.ConfigFileApplicationListener
 	 */
-	protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {
+	protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {//设置profile信息
 		Set<String> profiles = new LinkedHashSet<>(this.additionalProfiles);
 		profiles.addAll(Arrays.asList(environment.getActiveProfiles()));
 		environment.setActiveProfiles(StringUtils.toStringArray(profiles));
@@ -715,7 +712,7 @@ public class SpringApplication {
 		if (this.environment != null) {
 			loader.setEnvironment(this.environment);
 		}
-		loader.load();
+		loader.load();//执行load
 	}
 
 	/**
@@ -771,7 +768,7 @@ public class SpringApplication {
 	 */
 	protected void refresh(ApplicationContext applicationContext) {
 		Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext);
-		((AbstractApplicationContext) applicationContext).refresh();
+		((AbstractApplicationContext) applicationContext).refresh();//spring-framework核心初始化方法，见spring-framework源码分析
 	}
 
 	/**
@@ -1251,7 +1248,9 @@ public class SpringApplication {
 	 * @return the running {@link ApplicationContext}
 	 */
 	public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args) {
-		// 两件事：1.初始化SpringApplication  2.执行run方法
+		// 两件事：
+		// 1.初始化SpringApplication
+		// 2.执行run方法
 		return new SpringApplication(primarySources).run(args);
 	}
 
