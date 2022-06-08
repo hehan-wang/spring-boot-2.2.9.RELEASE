@@ -79,7 +79,7 @@ public class TomcatWebServer implements WebServer {
 		initialize();
 	}
 
-	private void initialize() throws WebServerException {
+	private void initialize() throws WebServerException {//启动tomcat
 		logger.info("Tomcat initialized with port(s): " + getPortsDescription(false));
 		synchronized (this.monitor) {
 			try {

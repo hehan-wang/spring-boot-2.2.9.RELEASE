@@ -168,7 +168,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		}
 		else if (servletContext != null) {
 			try {
-				getSelfInitializer().onStartup(servletContext);
+				getSelfInitializer().onStartup(servletContext);//触发初始化
 			}
 			catch (ServletException ex) {
 				throw new ApplicationContextException("Cannot initialize servlet context", ex);

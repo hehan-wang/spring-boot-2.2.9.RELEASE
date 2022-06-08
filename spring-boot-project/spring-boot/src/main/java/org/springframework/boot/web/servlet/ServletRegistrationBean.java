@@ -16,19 +16,18 @@
 
 package org.springframework.boot.web.servlet;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
-
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * A {@link ServletContextInitializer} to register {@link Servlet}s in a Servlet 3.0+
@@ -175,7 +174,7 @@ public class ServletRegistrationBean<T extends Servlet> extends DynamicRegistrat
 	@Override
 	protected ServletRegistration.Dynamic addRegistration(String description, ServletContext servletContext) {
 		String name = getServletName();
-		return servletContext.addServlet(name, this.servlet);
+		return servletContext.addServlet(name, this.servlet);//Servlet注入容器核心代码
 	}
 
 	/**
@@ -184,7 +183,7 @@ public class ServletRegistrationBean<T extends Servlet> extends DynamicRegistrat
 	 * @param registration the registration
 	 */
 	@Override
-	protected void configure(ServletRegistration.Dynamic registration) {
+	protected void configure(ServletRegistration.Dynamic registration) {//配置servlet的属性
 		super.configure(registration);
 		String[] urlMapping = StringUtils.toStringArray(this.urlMappings);
 		if (urlMapping.length == 0 && this.alwaysMapUrl) {

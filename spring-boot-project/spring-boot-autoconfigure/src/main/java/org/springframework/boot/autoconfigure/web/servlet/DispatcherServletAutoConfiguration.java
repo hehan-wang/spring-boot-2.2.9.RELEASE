@@ -56,7 +56,7 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass(DispatcherServlet.class)
-@AutoConfigureAfter(ServletWebServerFactoryAutoConfiguration.class)
+@AutoConfigureAfter(ServletWebServerFactoryAutoConfiguration.class)//Servlet容器初始化后运行
 public class DispatcherServletAutoConfiguration {
 
 	/*
@@ -76,7 +76,7 @@ public class DispatcherServletAutoConfiguration {
 	protected static class DispatcherServletConfiguration {
 
 		@Bean(name = DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
-		public DispatcherServlet dispatcherServlet(HttpProperties httpProperties, WebMvcProperties webMvcProperties) {
+		public DispatcherServlet dispatcherServlet(HttpProperties httpProperties, WebMvcProperties webMvcProperties) {//初始化DispatcherServlet bean
 			DispatcherServlet dispatcherServlet = new DispatcherServlet();
 			dispatcherServlet.setDispatchOptionsRequest(webMvcProperties.isDispatchOptionsRequest());
 			dispatcherServlet.setDispatchTraceRequest(webMvcProperties.isDispatchTraceRequest());
@@ -101,7 +101,7 @@ public class DispatcherServletAutoConfiguration {
 	@ConditionalOnClass(ServletRegistration.class)
 	@EnableConfigurationProperties(WebMvcProperties.class)
 	@Import(DispatcherServletConfiguration.class)
-	protected static class DispatcherServletRegistrationConfiguration {
+	protected static class DispatcherServletRegistrationConfiguration {//负责注册servlet
 
 		@Bean(name = DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME)
 		@ConditionalOnBean(value = DispatcherServlet.class, name = DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
