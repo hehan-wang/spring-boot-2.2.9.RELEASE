@@ -16,18 +16,17 @@
 
 package org.springframework.boot;
 
+import org.apache.commons.logging.Log;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.StringUtils;
 
 /**
  * Class used by {@link SpringApplication} to print the application banner.
@@ -75,7 +74,7 @@ class SpringApplicationBannerPrinter {
 	private Banner getBanner(Environment environment) {
 		Banners banners = new Banners();
 		banners.addIfNotNull(getImageBanner(environment));
-		banners.addIfNotNull(getTextBanner(environment));
+		banners.addIfNotNull(getTextBanner(environment));//获取文本banner 默认路径banner.txt
 		if (banners.hasAtLeastOneBanner()) {
 			return banners;
 		}

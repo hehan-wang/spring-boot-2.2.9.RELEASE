@@ -101,7 +101,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		}
 		AnnotationAttributes attributes = getAttributes(annotationMetadata);
 
-		// 【1】得到spring.factories文件配置的所有自动配置类
+		// 【1】得到spring.factories文件配置的所有自动配置类 重点关注
 		List<String> configurations = getCandidateConfigurations(annotationMetadata, attributes);
 
 		// 利用LinkedHashSet移除重复的配置类
@@ -421,7 +421,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 							AutoConfigurationImportSelector.class.getSimpleName(),
 							deferredImportSelector.getClass().getName()));
 
-			// 【1】,调用getAutoConfigurationEntry方法得到自动配置类放入autoConfigurationEntry对象中
+			// 【1】,调用getAutoConfigurationEntry方法得到自动配置类放入autoConfigurationEntry对象中 重点关注
 			AutoConfigurationEntry autoConfigurationEntry = ((AutoConfigurationImportSelector) deferredImportSelector)
 					.getAutoConfigurationEntry(getAutoConfigurationMetadata(), annotationMetadata);
 

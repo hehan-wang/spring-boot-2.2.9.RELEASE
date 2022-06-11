@@ -292,7 +292,7 @@ public class SpringApplication {
 		configureHeadlessProperty();
 		//【1、获取并启动监听器】
 		SpringApplicationRunListeners listeners = getRunListeners(args);
-		listeners.starting();
+		listeners.starting();//给listener发送starting事件回调
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			//【2、构造应用上下文环境】
@@ -542,7 +542,7 @@ public class SpringApplication {
 	 * @see #configureEnvironment(ConfigurableEnvironment, String[])
 	 * @see org.springframework.boot.context.config.ConfigFileApplicationListener
 	 */
-	protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {//设置profile信息
+	protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {//设置激活的profile信息
 		Set<String> profiles = new LinkedHashSet<>(this.additionalProfiles);
 		profiles.addAll(Arrays.asList(environment.getActiveProfiles()));
 		environment.setActiveProfiles(StringUtils.toStringArray(profiles));

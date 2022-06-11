@@ -133,7 +133,7 @@ class BeanDefinitionLoader {
 		return count;
 	}
 
-	private int load(Object source) {
+	private int load(Object source) {//根据加载不同类型调用不同的方法 看到spring这么多if else 是不是放心多了
 		Assert.notNull(source, "Source must not be null");
 		// 从Class加载
 		if (source instanceof Class<?>) {

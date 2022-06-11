@@ -19,6 +19,4 @@ public class MyAutoConfiguration {
 		return new SimpleBean();
 	}
 
-
-
 }

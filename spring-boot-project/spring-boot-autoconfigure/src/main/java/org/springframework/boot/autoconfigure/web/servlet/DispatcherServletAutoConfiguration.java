@@ -91,7 +91,7 @@ public class DispatcherServletAutoConfiguration {
 		@ConditionalOnMissingBean(name = DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME)
 		public MultipartResolver multipartResolver(MultipartResolver resolver) {
 			// Detect if the user has created a MultipartResolver but named it incorrectly
-			return resolver;
+			return resolver;//修正用户multipartResolver bean名称定义错误
 		}
 
 	}
@@ -100,7 +100,7 @@ public class DispatcherServletAutoConfiguration {
 	@Conditional(DispatcherServletRegistrationCondition.class)
 	@ConditionalOnClass(ServletRegistration.class)
 	@EnableConfigurationProperties(WebMvcProperties.class)
-	@Import(DispatcherServletConfiguration.class)
+	@Import(DispatcherServletConfiguration.class)//导入DispatcherServlet
 	protected static class DispatcherServletRegistrationConfiguration {//负责注册servlet
 
 		@Bean(name = DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME)

@@ -16,9 +16,6 @@
 
 package org.springframework.boot.autoconfigure.web.servlet;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletRequest;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -45,6 +42,9 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletRequest;
+
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for servlet web servers.
  *
@@ -64,7 +64,7 @@ import org.springframework.web.filter.ForwardedHeaderFilter;
 		ServletWebServerFactoryConfiguration.EmbeddedTomcat.class,
 		ServletWebServerFactoryConfiguration.EmbeddedJetty.class,
 		ServletWebServerFactoryConfiguration.EmbeddedUndertow.class })
-public class ServletWebServerFactoryAutoConfiguration {
+public class ServletWebServerFactoryAutoConfiguration {//web自动配置类
 
 	@Bean
 	public ServletWebServerFactoryCustomizer servletWebServerFactoryCustomizer(ServerProperties serverProperties) {
