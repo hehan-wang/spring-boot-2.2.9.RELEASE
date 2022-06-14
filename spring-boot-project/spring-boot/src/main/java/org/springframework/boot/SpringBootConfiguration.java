@@ -40,7 +40,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 
-@Configuration
+@Configuration //能力同Configuration
 public @interface SpringBootConfiguration {
 
 	/**

@@ -25,7 +25,7 @@ public class EmployeeController {
 
 		Employee emp = employeeService.getEmpById(id);
 		// 手动设置更新内容
-		emp.setLastName("应颠");
+		emp.setLastName("");
 		Employee employee = employeeService.updateEmp(emp);
 
 		return  employee;
